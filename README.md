@@ -256,9 +256,33 @@ Returned automatically by Pydantic.
 {
   "detail": [
     {
-      "loc": ["body", "year"],
-      "msg": "Year must be between 1000 and 2026",
-      "type": "value_error"
+      "type": "value_error",
+      "loc": [
+        "body",
+        "year"
+      ],
+      "msg": "Value error, Year must be between 1000 and 2026",
+      "input": 3009,
+      "ctx": {
+        "error": {}
+      }
+    }
+  ]
+}
+
+{
+  "detail": [
+    {
+      "type": "value_error",
+      "loc": [
+        "body",
+        "isbn"
+      ],
+      "msg": "Value error, ISBN must be 10 or 13 characters long",
+      "input": "12",
+      "ctx": {
+        "error": {}
+      }
     }
   ]
 }
