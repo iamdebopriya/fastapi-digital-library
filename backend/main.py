@@ -76,6 +76,9 @@ class Book(BaseModel):
 
 
 library_db: List[Book] = []
+@app.get("/")
+def root():
+    return {"message": "Digital Library API is running"}
 
 
 # CRUD Operations (Grouped under 'Library' tag)
