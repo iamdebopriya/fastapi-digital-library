@@ -404,4 +404,4 @@ This dual-implementation project demonstrates:
 **Choose Gin for:** High-concurrency scenarios, microservices, minimal resource consumption
 
 ---
-Build with FastAPI & Go
+Build with FastAPI(Python) & Gin(Go)
