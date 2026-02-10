@@ -88,7 +88,7 @@ func (h *BookHandler) CreateBook(c *gin.Context) {
 
 	go func(b domain.Book) {
 		time.Sleep(2 * time.Second)
-		log.Println("Email sent for new book:", b.Title)
+		log.Println("Notification sent for new book:", b.Title)
 	}(book)
 
 	c.JSON(http.StatusCreated, gin.H{"message": "book created"})
