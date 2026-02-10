@@ -20,11 +20,9 @@ import (
 )
 
 /*  GLOBAL TASK STATE  */
-
 var taskRunning = false
 
 /*  MIDDLEWARE: WAIT IF TASK RUNNING  */
-
 func waitForTaskMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		for {
@@ -41,8 +39,7 @@ func waitForTaskMiddleware() gin.HandlerFunc {
 	}
 }
 
-/*  X-PROCESS-TIME  */
-
+/*  MIDDLEWARE: TIMING + USER-AGENT LOGGING  */
 type timingWriter struct {
 	gin.ResponseWriter
 	start time.Time
@@ -54,16 +51,22 @@ func (w timingWriter) WriteHeader(code int) {
 	w.ResponseWriter.WriteHeader(code)
 }
 
-func timingMiddleware() gin.HandlerFunc {
+func timingAndUserAgentMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
+
+		// Log User-Agent
+		userAgent := c.GetHeader("User-Agent")
+		log.Printf("[LOG] Request received from: %s", userAgent)
+
+		// Wrap writer for X-Process-Time
 		c.Writer = timingWriter{ResponseWriter: c.Writer, start: start}
+
 		c.Next()
 	}
 }
 
 /*  CORS  */
-
 func corsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
@@ -80,19 +83,21 @@ func corsMiddleware() gin.HandlerFunc {
 }
 
 /*  MAIN  */
-
 func main() {
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
 
-	r.Use(waitForTaskMiddleware())
-	r.Use(timingMiddleware())
-	r.Use(corsMiddleware())
+	// Middlewares
+	r.Use(waitForTaskMiddleware())        // wait if task running
+	r.Use(timingAndUserAgentMiddleware()) // X-Process-Time + log User-Agent
+	r.Use(corsMiddleware())               // CORS
 
+	// Book CRUD + Task Handlers
 	uc := usecase.NewBookUsecase()
 	bookHandler := http.NewBookHandler(uc)
 	http.RegisterRoutes(r, bookHandler, &taskRunning)
 
+	// Swagger
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	log.Println("Server running on port 8080")
