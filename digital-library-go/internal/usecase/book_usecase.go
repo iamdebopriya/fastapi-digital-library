@@ -3,7 +3,7 @@ package usecase
 import (
 	"errors"
 
-	"digital-library-go/internal/domain"
+	"github.com/iamdebopriya/fastapi-digital-library/digital-library-go/internal/domain"
 )
 
 type BookUsecase struct {
