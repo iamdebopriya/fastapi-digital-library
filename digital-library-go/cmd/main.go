@@ -10,9 +10,9 @@ import (
 	"log"
 	"time"
 
-	_ "digital-library-go/docs"
-	"digital-library-go/internal/delivery/http"
-	"digital-library-go/internal/usecase"
+	_ "github.com/iamdebopriya/fastapi-digital-library/digital-library-go/docs"
+	"github.com/iamdebopriya/fastapi-digital-library/digital-library-go/internal/delivery/http"
+	"github.com/iamdebopriya/fastapi-digital-library/digital-library-go/internal/usecase"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"digital-library-go/internal/domain"
-	"digital-library-go/internal/usecase"
+	"github.com/iamdebopriya/fastapi-digital-library/digital-library-go/internal/domain"
+	"github.com/iamdebopriya/fastapi-digital-library/digital-library-go/internal/usecase"
 
 	"github.com/gin-gonic/gin"
 )
